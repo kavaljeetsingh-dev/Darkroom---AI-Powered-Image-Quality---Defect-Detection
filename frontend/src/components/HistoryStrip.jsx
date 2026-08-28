@@ -1,12 +1,20 @@
 import StampBadge from "./StampBadge.jsx";
 import { Card } from "./ui/card.jsx";
+import { Button } from "./ui/button.jsx";
 
-export default function HistoryStrip({ items, loading, onSelect, selectedId }) {
+export default function HistoryStrip({ items, loading, onSelect, selectedId, onClearAll, onDelete }) {
   return (
     <div className="flex flex-col h-full bg-muted/20 border rounded-xl overflow-hidden shadow-sm">
       <div className="p-4 border-b bg-background/50 backdrop-blur flex justify-between items-center">
         <h3 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground">Recent Analyses</h3>
-        <span className="text-xs font-mono bg-muted px-2 py-0.5 rounded-full text-foreground/70">{items.length} items</span>
+        <div className="flex items-center gap-2">
+          {items.length > 0 && (
+            <Button variant="outline" size="sm" className="h-6 px-2 text-[10px] uppercase font-bold" onClick={onClearAll}>
+              Clear All
+            </Button>
+          )}
+          <span className="text-xs font-mono bg-muted px-2 py-0.5 rounded-full text-foreground/70">{items.length} items</span>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
@@ -35,9 +43,21 @@ export default function HistoryStrip({ items, loading, onSelect, selectedId }) {
                 onClick={() => onSelect(item.id)}
               >
                 <div className="flex justify-between items-center p-3 border-b bg-muted/10">
-                  <span className="font-mono text-xs text-muted-foreground bg-background rounded px-1.5 font-semibold">
-                    #{String(item.id).padStart(4, "0")}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs text-muted-foreground bg-background border rounded px-1.5 font-semibold">
+                      #{String(item.id).padStart(4, "0")}
+                    </span>
+                    <button
+                      className="opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/20 hover:text-destructive rounded-full w-5 h-5 flex items-center justify-center text-muted-foreground"
+                      title="Remove from history"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(item.id);
+                      }}
+                    >
+                      ✕
+                    </button>
+                  </div>
                   <StampBadge label={item.quality_label || item.recommended_action} size="sm" hideSubtitle />
                 </div>
 

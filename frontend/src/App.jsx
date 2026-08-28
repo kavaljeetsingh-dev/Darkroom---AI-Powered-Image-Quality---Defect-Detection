@@ -3,7 +3,7 @@ import UploadPanel from "./components/UploadPanel.jsx";
 import ReportCard from "./components/ReportCard.jsx";
 import HistoryStrip from "./components/HistoryStrip.jsx";
 import StatusBadge from "./components/StatusBadge.jsx";
-import { analyzeImage, listResults, getResult, checkHealth, imageUrl, clearResults } from "./api/client.js";
+import { analyzeImage, listResults, getResult, checkHealth, imageUrl, clearResults, deleteResult } from "./api/client.js";
 import { Card } from "./components/ui/card.jsx";
 
 export default function App() {
@@ -87,6 +87,28 @@ export default function App() {
     }
   };
 
+  const handleClearAllHistory = async () => {
+    try {
+      await clearResults();
+      refreshHistory();
+      if (result) handleFileSelected(null);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleDeleteHistoryItem = async (id) => {
+    try {
+      await deleteResult(id);
+      refreshHistory();
+      if (result && result.id === id) {
+        handleFileSelected(null);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
       <div className="fixed inset-0 pointer-events-none opacity-0 mix-blend-overlay z-50 bg-background" />
@@ -134,6 +156,8 @@ export default function App() {
             loading={historyLoading}
             onSelect={handleSelectHistoryItem}
             selectedId={result?.id}
+            onClearAll={handleClearAllHistory}
+            onDelete={handleDeleteHistoryItem}
           />
         </aside>
       </main>
