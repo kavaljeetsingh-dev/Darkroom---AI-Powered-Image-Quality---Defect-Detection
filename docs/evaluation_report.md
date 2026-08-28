@@ -10,19 +10,19 @@ Test samples are generated from a **held-out base image never seen during traini
 
 | Issue | Accuracy | Precision | Recall | F1 | ROC-AUC | Threshold |
 |---|---|---|---|---|---|---|
-| blur | 0.793 | 0.592 | 0.983 | 0.739 | 0.877 | 0.40 |
-| underexposure | 0.949 | 0.944 | 0.810 | 0.872 | 0.948 | 0.48 |
-| overexposure | 0.955 | 1.000 | 0.769 | 0.870 | 0.935 | 0.64 |
-| noise | 0.985 | 1.000 | 0.930 | 0.964 | 0.988 | 0.46 |
-| corruption | 0.985 | 0.909 | 0.833 | 0.870 | 0.996 | 0.84 |
+| blur | 0.783 | 0.585 | 0.932 | 0.719 | 0.866 | 0.56 |
+| underexposure | 0.944 | 1.000 | 0.738 | 0.849 | 0.948 | 0.58 |
+| overexposure | 0.904 | 0.717 | 0.846 | 0.776 | 0.928 | 0.42 |
+| noise | 0.985 | 1.000 | 0.930 | 0.964 | 0.992 | 0.40 |
+| corruption | 0.980 | 0.833 | 0.833 | 0.833 | 0.996 | 0.80 |
 
 ### Confusion matrices ([[TN, FP], [FN, TP]])
 
-- **blur**: [[99, 40], [1, 58]]
-- **underexposure**: [[154, 2], [8, 34]]
-- **overexposure**: [[159, 0], [9, 30]]
+- **blur**: [[100, 39], [4, 55]]
+- **underexposure**: [[156, 0], [11, 31]]
+- **overexposure**: [[146, 13], [6, 33]]
 - **noise**: [[155, 0], [3, 40]]
-- **corruption**: [[185, 1], [2, 10]]
+- **corruption**: [[184, 2], [2, 10]]
 
 ## Overall quality_score
 
@@ -38,26 +38,26 @@ Test samples are generated from a **held-out base image never seen during traini
 
 | Feature | Importance |
 |---|---|
-| blockiness | 0.1040 |
-| brightness_mean | 0.1009 |
-| noise_estimate | 0.0842 |
-| sharpness_norm | 0.0730 |
-| hist_low_mass | 0.0673 |
-| sharpness_lap_var | 0.0663 |
-| noise_high_freq_energy | 0.0639 |
-| bright_pixel_ratio | 0.0600 |
-| hist_high_mass | 0.0552 |
-| dark_pixel_ratio | 0.0496 |
-| noise_local_var | 0.0429 |
-| sharpness_tenengrad | 0.0372 |
-| edge_density | 0.0345 |
-| entropy | 0.0293 |
-| contrast_rms | 0.0256 |
-| colorfulness | 0.0250 |
-| saturation_mean | 0.0236 |
-| brightness_std | 0.0222 |
-| channel_mean_asymmetry | 0.0217 |
-| gradient_coherence | 0.0134 |
+| blockiness | 0.1043 |
+| brightness_mean | 0.0941 |
+| noise_estimate | 0.0848 |
+| hist_low_mass | 0.0689 |
+| sharpness_norm | 0.0685 |
+| sharpness_lap_var | 0.0676 |
+| noise_high_freq_energy | 0.0632 |
+| bright_pixel_ratio | 0.0626 |
+| hist_high_mass | 0.0556 |
+| dark_pixel_ratio | 0.0499 |
+| noise_local_var | 0.0437 |
+| sharpness_tenengrad | 0.0374 |
+| edge_density | 0.0372 |
+| entropy | 0.0287 |
+| contrast_rms | 0.0251 |
+| colorfulness | 0.0251 |
+| brightness_std | 0.0233 |
+| saturation_mean | 0.0232 |
+| channel_mean_asymmetry | 0.0224 |
+| gradient_coherence | 0.0144 |
 
 ## Known limitations & failure modes
 

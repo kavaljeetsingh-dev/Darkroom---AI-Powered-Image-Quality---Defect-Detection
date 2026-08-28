@@ -85,7 +85,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
-      <div className="fixed inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay z-50 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 pointer-events-none opacity-0 mix-blend-overlay z-50 bg-background" />
 
       <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -105,8 +105,6 @@ export default function App() {
       <main className="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10 w-full max-w-7xl">
         <div className="lg:col-span-8 flex flex-col gap-8">
           <UploadPanel
-            file={null} // Wait, UploadPanel expects file, setFile or we can just pass onFileSelected 
-            setFile={handleFileSelected} // Overloaded hack: since original upload panel used setFile, but I wrote setFile in uploadpanel!
             preview={preview}
             status={status}
             onFileSelected={handleFileSelected}

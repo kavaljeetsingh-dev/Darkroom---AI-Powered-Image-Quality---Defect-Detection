@@ -19,7 +19,7 @@ Pipeline
 6. Train:
      - one RandomForestClassifier per issue type (multi-label, since issues
        are not mutually exclusive)
-     - one GradientBoostingRegressor for the overall quality_score
+     - transparent quality score derived from calibrated issue probabilities
      - one IsolationForest fit on clean-image features only, used at
        inference time as a generic "potential visual defect" anomaly signal
        for problems that don't fit the 5 explicit categories
@@ -43,7 +43,7 @@ import cv2
 import joblib
 from skimage import data as skdata
 from sklearn.decomposition import PCA
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, IsolationForest
+from sklearn.ensemble import RandomForestClassifier, IsolationForest
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import (
@@ -205,6 +205,11 @@ def train_and_evaluate():
     X_train_s = scaler.fit_transform(X_train)
     X_test_s = scaler.transform(X_test)
 
+    # Split train into train + validation (for threshold tuning) to prevent data leakage
+    X_t_sub, X_v_sub, y_t_sub, y_v_sub = train_test_split(
+        X_train_s, y_train, test_size=0.25, random_state=RANDOM_SEED
+    )
+
     # --- one classifier per issue type (multi-label) ---
     classifiers = {}
     per_label_report = {}
@@ -215,16 +220,19 @@ def train_and_evaluate():
             n_estimators=400, max_depth=12, min_samples_leaf=3,
             class_weight="balanced", random_state=RANDOM_SEED,
         )
-        clf.fit(X_train_s, y_train[:, i])
+        clf.fit(X_t_sub, y_t_sub[:, i])
         classifiers[issue] = clf
 
-        proba = clf.predict_proba(X_test_s)[:, 1] if len(clf.classes_) > 1 else np.zeros(X_test_s.shape[0])
-
-        # Find best threshold per issue
-        best_t, best_f1 = _find_best_threshold(y_test[:, i], proba)
+        val_proba = clf.predict_proba(X_v_sub)[:, 1] if len(clf.classes_) > 1 else np.zeros(X_v_sub.shape[0])
+        
+        # Find best threshold per issue using the VALIDATION set
+        best_t, best_f1 = _find_best_threshold(y_v_sub[:, i], val_proba)
         optimal_thresholds[issue] = best_t
 
-        pred = (proba >= best_t).astype(int)
+        # Finally, evaluate on the pristine TEST set
+        test_proba = clf.predict_proba(X_test_s)[:, 1] if len(clf.classes_) > 1 else np.zeros(X_test_s.shape[0])
+
+        pred = (test_proba >= best_t).astype(int)
         report = {
             "accuracy": float(accuracy_score(y_test[:, i], pred)),
             "precision": float(precision_score(y_test[:, i], pred, zero_division=0)),
@@ -233,7 +241,7 @@ def train_and_evaluate():
             "threshold": best_t,
         }
         try:
-            report["roc_auc"] = float(roc_auc_score(y_test[:, i], proba))
+            report["roc_auc"] = float(roc_auc_score(y_test[:, i], test_proba))
         except ValueError:
             report["roc_auc"] = None
         cm = confusion_matrix(y_test[:, i], pred, labels=[0, 1]).tolist()

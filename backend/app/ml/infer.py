@@ -50,11 +50,11 @@ ISSUE_EXPLANATIONS = {
 # predicted probability is multiplied by its weight and subtracted from
 # 100 to obtain the final score.  Corruption is weighted most heavily.
 QUALITY_WEIGHTS = {
-    "blur": 0.25,
-    "noise": 0.20,
-    "underexposure": 0.20,
-    "overexposure": 0.20,
-    "corruption": 0.35,
+    "blur": 0.20,
+    "noise": 0.17,
+    "underexposure": 0.17,
+    "overexposure": 0.17,
+    "corruption": 0.29,
 }
 
 

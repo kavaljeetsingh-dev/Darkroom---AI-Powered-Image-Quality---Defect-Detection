@@ -7,10 +7,28 @@ from app.main import app
 SAMPLE_DIR = Path(__file__).resolve().parent.parent.parent / "sample_images"
 
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from app.database import get_db, Base
+
 @pytest.fixture
-def client():
+def client(tmp_path):
+    db_file = tmp_path / "test.db"
+    engine = create_engine(f"sqlite:///{db_file}", connect_args={"check_same_thread": False})
+    TestingSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    Base.metadata.create_all(bind=engine)
+
+    def override_get_db():
+        db = TestingSession()
+        try:
+            yield db
+        finally:
+            db.close()
+
+    app.dependency_overrides[get_db] = override_get_db
     with TestClient(app) as c:
         yield c
+    app.dependency_overrides.clear()
 
 
 def _analyze(client, filename: str) -> dict:

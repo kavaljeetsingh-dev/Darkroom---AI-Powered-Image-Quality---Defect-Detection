@@ -130,10 +130,17 @@ export default function ReportCard({ result }) {
           </p>
         </div>
 
-        <div className="flex gap-2 shrink-0">
-          <StampBadge label={result.quality_label} subtitle="QUALITY" />
-          {result.recommended_action && (
-            <StampBadge label={result.recommended_action} subtitle="ACTION" />
+        <div className="flex flex-col items-end gap-1 shrink-0">
+          <div className="flex gap-2">
+            <StampBadge label={result.quality_label} subtitle="QUALITY" />
+            {result.recommended_action && (
+              <StampBadge label={result.recommended_action} subtitle="ACTION" />
+            )}
+          </div>
+          {result.quality_label === "ACCEPTABLE" && result.recommended_action === "REVIEW" && (
+            <span className="text-[10px] text-muted-foreground mt-1 max-w-[200px] text-right leading-tight">
+              Quality is acceptable, but an anomaly was detected outside the known defect categories.
+            </span>
           )}
         </div>
       </div>

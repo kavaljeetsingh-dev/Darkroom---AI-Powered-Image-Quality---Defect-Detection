@@ -27,8 +27,7 @@ docker compose up --build
 
 The backend image trains the model **during the Docker build** (a few
 seconds, fixed random seed, no internet dataset download — see [Section
-4](#4-aiml-approach--why-hybrid)) if trained artifacts aren't already present
-in `backend/app/ml/artifacts/`. If you cloned this repo with those artifacts
+4](#4-aiml-approach--why-hybrid)). The backend image verifies that trained artifacts are available during build and retrains them automatically if they are missing. If you cloned this repo with those artifacts
 included, the build reuses them and skips retraining.
 
 Data (SQLite DB + uploaded image copies) persists in the `backend_data`
