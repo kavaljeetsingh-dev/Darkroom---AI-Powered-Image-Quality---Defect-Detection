@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: image-quality-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-sqlite:////app/data/analysis.db}
+      - APP_DATA_DIR=/app/data
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+    volumes:
+      - backend_data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Must be reachable from the *browser*, not just inside this
+        # compose network - defaults to the host-mapped backend port.
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    container_name: image-quality-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    depends_on:
+      - backend
+
+volumes:
+  backend_data:

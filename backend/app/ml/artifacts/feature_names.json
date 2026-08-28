@@ -1,0 +1,1 @@
+["sharpness_lap_var", "sharpness_norm", "sharpness_tenengrad", "brightness_mean", "brightness_std", "contrast_rms", "dark_pixel_ratio", "bright_pixel_ratio", "hist_low_mass", "hist_high_mass", "noise_estimate", "noise_local_var", "noise_high_freq_energy", "edge_density", "gradient_coherence", "colorfulness", "saturation_mean", "entropy", "blockiness", "channel_mean_asymmetry"]

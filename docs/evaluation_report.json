@@ -1,0 +1,187 @@
+{
+  "per_label": {
+    "blur": {
+      "accuracy": 0.7929292929292929,
+      "precision": 0.5918367346938775,
+      "recall": 0.9830508474576272,
+      "f1": 0.7388535031847133,
+      "threshold": 0.3999999999999999,
+      "roc_auc": 0.8769662236312644,
+      "confusion_matrix": [
+        [
+          99,
+          40
+        ],
+        [
+          1,
+          58
+        ]
+      ]
+    },
+    "underexposure": {
+      "accuracy": 0.9494949494949495,
+      "precision": 0.9444444444444444,
+      "recall": 0.8095238095238095,
+      "f1": 0.8717948717948718,
+      "threshold": 0.47999999999999987,
+      "roc_auc": 0.9476495726495727,
+      "confusion_matrix": [
+        [
+          154,
+          2
+        ],
+        [
+          8,
+          34
+        ]
+      ]
+    },
+    "overexposure": {
+      "accuracy": 0.9545454545454546,
+      "precision": 1.0,
+      "recall": 0.7692307692307693,
+      "f1": 0.8695652173913043,
+      "threshold": 0.6399999999999998,
+      "roc_auc": 0.9346879535558781,
+      "confusion_matrix": [
+        [
+          159,
+          0
+        ],
+        [
+          9,
+          30
+        ]
+      ]
+    },
+    "noise": {
+      "accuracy": 0.9848484848484849,
+      "precision": 1.0,
+      "recall": 0.9302325581395349,
+      "f1": 0.963855421686747,
+      "threshold": 0.4599999999999999,
+      "roc_auc": 0.9876969242310578,
+      "confusion_matrix": [
+        [
+          155,
+          0
+        ],
+        [
+          3,
+          40
+        ]
+      ]
+    },
+    "corruption": {
+      "accuracy": 0.9848484848484849,
+      "precision": 0.9090909090909091,
+      "recall": 0.8333333333333334,
+      "f1": 0.8695652173913043,
+      "threshold": 0.8399999999999996,
+      "roc_auc": 0.9959677419354839,
+      "confusion_matrix": [
+        [
+          185,
+          1
+        ],
+        [
+          2,
+          10
+        ]
+      ]
+    }
+  },
+  "anomaly_detector": {
+    "accuracy_vs_any_issue": 0.7828282828282829,
+    "precision_vs_any_issue": 0.8203592814371258,
+    "recall_vs_any_issue": 0.9133333333333333,
+    "note": "IsolationForest is trained ONLY on clean-image features and used at inference as a generic novelty/defect signal, independent of the 5 explicit supervised issue classifiers. Compared here against 'any labeled issue present' purely as a sanity check, not as its primary evaluation target."
+  },
+  "feature_importance_ranked": [
+    [
+      "blockiness",
+      0.10404830825500873
+    ],
+    [
+      "brightness_mean",
+      0.10091052712431632
+    ],
+    [
+      "noise_estimate",
+      0.08423929713739658
+    ],
+    [
+      "sharpness_norm",
+      0.07295442106782764
+    ],
+    [
+      "hist_low_mass",
+      0.0673251974512331
+    ],
+    [
+      "sharpness_lap_var",
+      0.06634899798587222
+    ],
+    [
+      "noise_high_freq_energy",
+      0.06392802281963736
+    ],
+    [
+      "bright_pixel_ratio",
+      0.05996435526013796
+    ],
+    [
+      "hist_high_mass",
+      0.05522280541595951
+    ],
+    [
+      "dark_pixel_ratio",
+      0.049583888726282895
+    ],
+    [
+      "noise_local_var",
+      0.04293970768274247
+    ],
+    [
+      "sharpness_tenengrad",
+      0.037232388661504356
+    ],
+    [
+      "edge_density",
+      0.03451324517553793
+    ],
+    [
+      "entropy",
+      0.02925910516445706
+    ],
+    [
+      "contrast_rms",
+      0.025600727129355356
+    ],
+    [
+      "colorfulness",
+      0.025008633349296
+    ],
+    [
+      "saturation_mean",
+      0.023560410540285896
+    ],
+    [
+      "brightness_std",
+      0.022222782332750893
+    ],
+    [
+      "channel_mean_asymmetry",
+      0.021742495503404104
+    ],
+    [
+      "gradient_coherence",
+      0.01339468321699363
+    ]
+  ],
+  "n_train": 1400,
+  "n_test": 198,
+  "n_engineered_features": 20,
+  "n_cnn_features": 0,
+  "cnn_enabled": false
+}
