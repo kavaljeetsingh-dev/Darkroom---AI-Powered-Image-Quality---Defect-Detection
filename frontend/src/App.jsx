@@ -90,9 +90,10 @@ export default function App() {
   const handleClearAllHistory = async () => {
     try {
       await clearResults();
-      refreshHistory();
-      if (result) handleFileSelected(null);
+      await refreshHistory();
+      if (result) await handleFileSelected(null);
     } catch (e) {
+      alert("Failed to clear history: " + e.message);
       console.error(e);
     }
   };
@@ -100,11 +101,12 @@ export default function App() {
   const handleDeleteHistoryItem = async (id) => {
     try {
       await deleteResult(id);
-      refreshHistory();
+      await refreshHistory();
       if (result && result.id === id) {
-        handleFileSelected(null);
+        await handleFileSelected(null);
       }
     } catch (e) {
+      alert("Failed to delete item: " + e.message);
       console.error(e);
     }
   };
