@@ -3,7 +3,7 @@ import UploadPanel from "./components/UploadPanel.jsx";
 import ReportCard from "./components/ReportCard.jsx";
 import HistoryStrip from "./components/HistoryStrip.jsx";
 import StatusBadge from "./components/StatusBadge.jsx";
-import { analyzeImage, listResults, getResult, checkHealth, imageUrl } from "./api/client.js";
+import { analyzeImage, listResults, getResult, checkHealth, imageUrl, clearResults } from "./api/client.js";
 import { Card } from "./components/ui/card.jsx";
 
 export default function App() {
@@ -29,7 +29,11 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    refreshHistory();
+    // Wipe backend persistence entirely upon hard refresh per user instruction
+    clearResults()
+      .then(() => refreshHistory())
+      .catch(console.error);
+
     checkHealth().then(setHealth).catch(() => setHealth({ status: "unreachable" }));
   }, [refreshHistory]);
 

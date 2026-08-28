@@ -41,6 +41,11 @@ export async function deleteResult(id) {
   return handle(res);
 }
 
+export async function clearResults() {
+  const res = await fetch(`${API_BASE}/api/results`, { method: "DELETE" });
+  return handle(res);
+}
+
 export async function checkHealth() {
   const res = await fetch(`${API_BASE}/api/health`);
   return handle(res);
