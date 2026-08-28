@@ -120,9 +120,15 @@ export default function UploadPanel({ preview, status, onFileSelected }) {
                 Drag a file into this area, or click anywhere to open your file browser.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-xs opacity-75 mt-4">
+            <div className="flex flex-col gap-4 mt-2">
+              <Button onClick={() => inputRef.current?.click()} className="z-10 shadow-sm px-8" size="lg">
+                <UploadCloud className="w-4 h-4 mr-2" />
+                Select File
+              </Button>
+            </div>
+            <div className="flex items-center gap-2 text-xs opacity-75 mt-2">
               <ImageIcon className="w-4 h-4" />
-              <span>Supports JPEG, PNG, WEBP</span>
+              <span>Supports JPEG, PNG, WEBP, BMP, TIFF</span>
             </div>
           </div>
         )}

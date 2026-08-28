@@ -5,12 +5,28 @@ it's **ACCEPTABLE**, **DEGRADED**, or **DEFECTIVE**, detecting blur,
 under/overexposure, noise, corruption, and generic "potential defects" —
 without calling any external AI/vision API.
 
-```
-Frontend (React + Vite)  ──HTTP──▶  Backend (FastAPI)  ──▶  SQLite/Postgres
-                                          │
-                                          ▼
-                              Hybrid CV + ML pipeline
-                       (engineered features → trained classifiers)
+```mermaid
+graph TD
+    Client[Web Browser] -->|React + Vite| Upload[Upload Panel]
+    Upload -- Images & State --> Vercel[Vercel Frontend]
+    Vercel -- HTTP POST /api/analyze --> Fast[FastAPI Backend]
+    
+    subgraph Render Web Service [Backend Infrastructure]
+    Fast --> Valid[Validation & Decoding]
+    Valid --> Infer[ML Inference Engine]
+    
+    subgraph Machine Learning Pipeline
+    Infer --> Feat[Feature Extraction]
+    Feat --> RF[(Random Forest Ensemble)]
+    Feat --> IF[(Isolation Forest Anomaly)]
+    end
+    
+    RF --> Fast
+    IF --> Fast
+    end
+    
+    Fast -- Persists JSON & Image --> DB[(SQLite / PostgreSQL)]
+    DB -.-> Fast
 ```
 
 ## 1. Quick start (Docker Compose — recommended)
