@@ -43,6 +43,15 @@ export default function App() {
 
   const handleFileSelected = async (file) => {
     if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+
+    if (!file) {
+      setPreview(null);
+      setResult(null);
+      setStatus("idle");
+      setErrorMsg("");
+      return;
+    }
+
     const url = URL.createObjectURL(file);
     objectUrlRef.current = url;
     setPreview(url);

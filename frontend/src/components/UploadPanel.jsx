@@ -38,8 +38,8 @@ export default function UploadPanel({ preview, status, onFileSelected }) {
   return (
     <Card
       className={`border-2 border-dashed transition-all duration-200 cursor-pointer overflow-hidden relative ${dragOver
-          ? "border-primary bg-primary/5 scale-[1.01]"
-          : "border-muted-foreground/20 hover:border-primary/50 hover:bg-accent/50"
+        ? "border-primary bg-primary/5 scale-[1.01]"
+        : "border-muted-foreground/20 hover:border-primary/50 hover:bg-accent/50"
         }`}
       onDragEnter={handleDrag}
       onDragLeave={handleDrag}
@@ -75,21 +75,37 @@ export default function UploadPanel({ preview, status, onFileSelected }) {
                   <div className="w-3 h-3 bg-primary rounded-full animate-bounce delay-150"></div>
                 </div>
                 <span className="text-sm font-medium animate-pulse">
-                  Analyzing image quality...
+                  Analyzing image...
                 </span>
               </div>
             )}
-            <Button
-              variant="outline"
-              size="sm"
-              className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity show"
-              onClick={(e) => {
-                e.stopPropagation();
-                inputRef.current?.click();
-              }}
-            >
-              Change Image
-            </Button>
+
+            <div className="absolute top-4 right-4 z-20 flex gap-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                className="shadow-sm backdrop-blur-md bg-background/80 hover:bg-background"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  inputRef.current?.click();
+                }}
+              >
+                <UploadCloud className="w-4 h-4 mr-2" />
+                Upload Image
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                className="shadow-sm backdrop-blur-md w-9 px-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onFileSelected) onFileSelected(null);
+                }}
+                title="Clear image"
+              >
+                <span className="font-bold">✕</span>
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-4 animate-in zoom-in fade-in duration-500 text-muted-foreground">
