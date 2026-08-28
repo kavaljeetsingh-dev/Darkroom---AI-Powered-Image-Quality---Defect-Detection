@@ -43,6 +43,17 @@ export async function deleteResult(id) {
 
 export async function clearResults() {
   const res = await fetch(`${API_BASE}/api/results`, { method: "DELETE" });
+
+  if (res.status === 405) {
+    console.warn("Bulk delete threw 405. Cloud cluster likely frozen on older commit. Falling back to iterative deletion...");
+    const oldHistory = await listResults({ limit: 100 });
+    const deletePromises = oldHistory.results.map(record =>
+      fetch(`${API_BASE}/api/results/${record.id}`, { method: "DELETE" })
+    );
+    await Promise.all(deletePromises);
+    return { cleared: true, fallback: true };
+  }
+
   return handle(res);
 }
 
