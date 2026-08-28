@@ -31,8 +31,8 @@ export default function App() {
   useEffect(() => {
     // Wipe backend persistence entirely upon hard refresh per user instruction
     clearResults()
-      .then(() => refreshHistory())
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => refreshHistory());
 
     checkHealth().then(setHealth).catch(() => setHealth({ status: "unreachable" }));
   }, [refreshHistory]);
