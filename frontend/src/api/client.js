@@ -27,7 +27,7 @@ export async function analyzeImage(file) {
 export async function listResults({ limit = 12, offset = 0, qualityLabel = null } = {}) {
   const params = new URLSearchParams({ limit, offset });
   if (qualityLabel) params.set("quality_label", qualityLabel);
-  const res = await fetch(`${API_BASE}/api/results?${params.toString()}`);
+  const res = await fetch(`${API_BASE}/api/results?${params.toString()}`, { cache: "no-store" });
   return handle(res);
 }
 
