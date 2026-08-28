@@ -87,6 +87,12 @@ def health():
         version=APP_VERSION,
     )
 
+@app.get("/", tags=["system"])
+def root():
+    """Cloud provider health check proxy"""
+    return {"status": "ok", "app": "darkroom-api"}
+
+
 
 @app.post("/api/analyze", response_model=AnalysisResponse, tags=["analysis"])
 async def analyze_image(
